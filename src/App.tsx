@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 
+import CollectionCard from "./components/CollectionCard"
+
 type Collection = {
   id: number
   name: string
@@ -29,27 +31,42 @@ function App() {
   }, [])
 
   return (
-    <div style={{ padding: "20px" }}>
+
+    <div
+      style={{
+        padding: "20px"
+      }}
+    >
 
       <h1>Magic Inventory App</h1>
 
       <h2>Collections</h2>
 
-      {
-        collections.map((collection) => (
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "16px"
+        }}
+      >
 
-          <div key={collection.id}>
+        {
+          collections.map((collection) => (
 
-            <p>
-              {collection.name} ({collection.type})
-            </p>
+            <CollectionCard
+              key={collection.id}
+              id={collection.id}
+              name={collection.name}
+              type={collection.type}
+            />
 
-          </div>
+          ))
+        }
 
-        ))
-      }
+      </div>
 
     </div>
+
   )
 }
 
