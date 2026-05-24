@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom"
 
 import axios from "axios"
 
+import CardItem from "../components/CardItem"
+
 type Card = {
   id: number
 
@@ -12,6 +14,12 @@ type Card = {
     name: string
     type_line: string
     image_url: string
+
+    mana_cost: string
+    rarity: string
+    cmc: number
+
+    set_name: string
   }
 }
 
@@ -55,36 +63,21 @@ function CollectionDetail() {
         {
           cards.map((item) => (
 
-            <div
+            <CardItem
               key={item.id}
 
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "10px",
-                padding: "12px",
-                width: "220px"
-              }}
-            >
+              name={item.card.name}
+              imageUrl={item.card.image_url}
+              typeLine={item.card.type_line}
 
-              <img
-                src={item.card.image_url}
-                alt={item.card.name}
+              manaCost={item.card.mana_cost}
+              rarity={item.card.rarity}
+              cmc={item.card.cmc}
 
-                style={{
-                  width: "100%",
-                  borderRadius: "8px"
-                }}
-              />
+              quantity={item.quantity}
 
-              <h3>{item.card.name}</h3>
-
-              <p>{item.card.type_line}</p>
-
-              <p>
-                Quantity: {item.quantity}
-              </p>
-
-            </div>
+              setName={item.card.set_name}
+            />
 
           ))
         }
