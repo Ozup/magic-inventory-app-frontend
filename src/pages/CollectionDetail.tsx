@@ -31,6 +31,8 @@ function CollectionDetail() {
 
   const [typeFilter, setTypeFilter] = useState("")
 
+  const [rarityFilter, setRarityFilter] = useState("")
+
   useEffect(() => {
 
     axios
@@ -38,7 +40,8 @@ function CollectionDetail() {
         `http://127.0.0.1:8000/collections/${id}/cards`,
         {
           params: {
-            type: typeFilter
+            type: typeFilter,
+            rarity: rarityFilter
           }
         }
       )
@@ -53,7 +56,7 @@ function CollectionDetail() {
 
       })
 
-  }, [id, typeFilter])
+  }, [id, typeFilter, rarityFilter])
 
   return (
 
@@ -75,6 +78,25 @@ function CollectionDetail() {
         style={{
           padding: "10px",
           marginBottom: "20px",
+          width: "250px"
+        }}
+      />
+
+      <input
+        type="text"
+
+        placeholder="Filter by rarity"
+
+        value={rarityFilter}
+
+        onChange={(event) =>
+          setRarityFilter(event.target.value)
+        }
+
+        style={{
+          padding: "10px",
+          marginBottom: "20px",
+          marginLeft: "10px",
           width: "250px"
         }}
       />
