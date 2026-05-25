@@ -257,6 +257,11 @@ function CollectionDetail() {
               quantity={item.quantity}
 
               setName={item.card.set_name}
+              collectionId={id}
+
+              cardId={item.card.id}
+
+              onCardRemoved={fetchCards}
             />
 
           ))

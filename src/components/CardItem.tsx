@@ -1,3 +1,5 @@
+import axios from "axios"
+
 type CardItemProps = {
   name: string
   imageUrl: string
@@ -10,6 +12,12 @@ type CardItemProps = {
   quantity: number
 
   setName: string
+
+  collectionId: string
+
+  cardId: number
+
+  onCardRemoved: () => void
 }
 
 function CardItem({
@@ -23,8 +31,32 @@ function CardItem({
 
   quantity,
 
-  setName
+  setName,
+
+  collectionId,
+
+  cardId,
+
+  onCardRemoved
 }: CardItemProps) {
+
+  const removeCard = () => {
+
+    axios
+      .delete(
+        `http://127.0.0.1:8000/collections/${collectionId}/cards/${cardId}`
+      )
+      .then(() => {
+
+        onCardRemoved()
+
+      })
+      .catch((error) => {
+
+        console.error(error)
+
+      })
+  }
 
   return (
 
@@ -71,6 +103,20 @@ function CardItem({
       <p>
         Quantity: {quantity}
       </p>
+
+      <button
+        onClick={removeCard}
+
+        style={{
+          marginTop: "10px",
+          padding: "8px",
+          cursor: "pointer"
+        }}
+      >
+
+        Remove
+
+      </button>
 
     </div>
 
