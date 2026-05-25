@@ -5,6 +5,8 @@ import axios from "axios"
 
 import CardItem from "../components/CardItem"
 
+import AddCardForm from "../components/AddCardForm"
+
 type Card = {
   id: number
 
@@ -37,7 +39,7 @@ function CollectionDetail() {
 
   const [sortBy, setSortBy] = useState("")
 
-  useEffect(() => {
+  const fetchCards = () => {
 
     axios
       .get(
@@ -61,6 +63,11 @@ function CollectionDetail() {
         console.error(error)
 
       })
+  }
+
+  useEffect(() => {
+
+    fetchCards()
 
   }, [
     id,
@@ -75,6 +82,18 @@ function CollectionDetail() {
     <div style={{ padding: "20px" }}>
 
       <h1>Collection Detail</h1>
+
+      {
+        id && (
+
+          <AddCardForm
+            collectionId={id}
+
+            onCardAdded={fetchCards}
+          />
+
+        )
+      }
 
       <select
         value={typeFilter}
