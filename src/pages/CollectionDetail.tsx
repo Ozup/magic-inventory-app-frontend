@@ -35,6 +35,8 @@ function CollectionDetail() {
 
   const [nameFilter, setNameFilter] = useState("")
 
+  const [sortBy, setSortBy] = useState("")
+
   useEffect(() => {
 
     axios
@@ -44,7 +46,8 @@ function CollectionDetail() {
           params: {
             type: typeFilter,
             rarity: rarityFilter,
-            name: nameFilter
+            name: nameFilter,
+            sort_by: sortBy
           }
         }
       )
@@ -59,7 +62,13 @@ function CollectionDetail() {
 
       })
 
-  }, [id, typeFilter, rarityFilter, nameFilter])
+  }, [
+    id,
+    typeFilter,
+    rarityFilter,
+    nameFilter,
+    sortBy
+  ])
 
   return (
 
@@ -170,6 +179,39 @@ function CollectionDetail() {
           width: "250px"
         }}
       />
+
+      <select
+        value={sortBy}
+
+        onChange={(event) =>
+          setSortBy(event.target.value)
+        }
+
+        style={{
+          padding: "10px",
+          marginBottom: "20px",
+          marginLeft: "10px",
+          width: "250px"
+        }}
+      >
+
+        <option value="">
+          No Sorting
+        </option>
+
+        <option value="name">
+          Sort by Name
+        </option>
+
+        <option value="cmc">
+          Sort by CMC
+        </option>
+
+        <option value="rarity">
+          Sort by Rarity
+        </option>
+
+      </select>
 
       <div
         style={{
