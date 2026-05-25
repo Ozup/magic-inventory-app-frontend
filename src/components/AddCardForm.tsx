@@ -15,6 +15,44 @@ function AddCardForm({
 
   const [cardName, setCardName] = useState("")
 
+  const [suggestions, setSuggestions] = useState<
+    string[]
+  >([])
+
+  const fetchSuggestions = (
+    value: string
+  ) => {
+
+    setCardName(value)
+
+    if (!value) {
+
+      setSuggestions([])
+
+      return
+    }
+
+    axios
+      .get(
+        "http://127.0.0.1:8000/cards/autocomplete",
+        {
+          params: {
+            query: value
+          }
+        }
+      )
+      .then((response) => {
+
+        setSuggestions(response.data)
+
+      })
+      .catch((error) => {
+
+        console.error(error)
+
+      })
+  }
+
   const addCard = () => {
 
     if (!cardName) return
@@ -26,6 +64,8 @@ function AddCardForm({
       .then(() => {
 
         setCardName("")
+
+        setSuggestions([])
 
         onCardAdded()
 
@@ -41,7 +81,8 @@ function AddCardForm({
 
     <div
       style={{
-        marginBottom: "20px"
+        marginBottom: "20px",
+        position: "relative"
       }}
     >
 
@@ -53,7 +94,7 @@ function AddCardForm({
         value={cardName}
 
         onChange={(event) =>
-          setCardName(event.target.value)
+          fetchSuggestions(event.target.value)
         }
 
         style={{
@@ -75,6 +116,49 @@ function AddCardForm({
         Add Card
 
       </button>
+
+      {
+        suggestions.length > 0 && (
+
+          <div
+            style={{
+              border: "1px solid #ccc",
+              width: "250px",
+              backgroundColor: "white",
+              marginTop: "5px"
+            }}
+          >
+
+            {
+              suggestions.map((suggestion) => (
+
+                <div
+                  key={suggestion}
+
+                  onClick={() => {
+
+                    setCardName(suggestion)
+
+                    setSuggestions([])
+                  }}
+
+                  style={{
+                    padding: "8px",
+                    cursor: "pointer"
+                  }}
+                >
+
+                  {suggestion}
+
+                </div>
+
+              ))
+            }
+
+          </div>
+
+        )
+      }
 
     </div>
 
