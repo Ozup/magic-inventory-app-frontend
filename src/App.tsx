@@ -1,19 +1,26 @@
 import { useEffect, useState } from "react"
+
 import axios from "axios"
 
 import CollectionCard from "./components/CollectionCard"
 
+import CreateCollectionForm from "./components/CreateCollectionForm"
+
 type Collection = {
   id: number
+
   name: string
+
   type: string
 }
 
 function App() {
 
-  const [collections, setCollections] = useState<Collection[]>([])
+  const [collections, setCollections] = useState<
+    Collection[]
+  >([])
 
-  useEffect(() => {
+  const fetchCollections = () => {
 
     axios
       .get("http://127.0.0.1:8000/collections/")
@@ -27,20 +34,23 @@ function App() {
         console.error(error)
 
       })
+  }
+
+  useEffect(() => {
+
+    fetchCollections()
 
   }, [])
 
   return (
 
-    <div
-      style={{
-        padding: "20px"
-      }}
-    >
+    <div style={{ padding: "20px" }}>
 
       <h1>Magic Inventory App</h1>
 
-      <h2>Collections</h2>
+      <CreateCollectionForm
+        onCollectionCreated={fetchCollections}
+      />
 
       <div
         style={{
@@ -55,8 +65,11 @@ function App() {
 
             <CollectionCard
               key={collection.id}
+
               id={collection.id}
+
               name={collection.name}
+
               type={collection.type}
             />
 
