@@ -67,11 +67,7 @@ function CollectionDetail() {
 
       <h1>Collection Detail</h1>
 
-      <input
-        type="text"
-
-        placeholder="Filter by type"
-
+      <select
         value={typeFilter}
 
         onChange={(event) =>
@@ -83,13 +79,43 @@ function CollectionDetail() {
           marginBottom: "20px",
           width: "250px"
         }}
-      />
+      >
 
-      <input
-        type="text"
+        <option value="">
+          All Types
+        </option>
 
-        placeholder="Filter by rarity"
+        <option value="Creature">
+          Creature
+        </option>
 
+        <option value="Instant">
+          Instant
+        </option>
+
+        <option value="Sorcery">
+          Sorcery
+        </option>
+
+        <option value="Artifact">
+          Artifact
+        </option>
+
+        <option value="Enchantment">
+          Enchantment
+        </option>
+
+        <option value="Land">
+          Land
+        </option>
+
+        <option value="Planeswalker">
+          Planeswalker
+        </option>
+
+      </select>
+
+      <select
         value={rarityFilter}
 
         onChange={(event) =>
@@ -102,7 +128,29 @@ function CollectionDetail() {
           marginLeft: "10px",
           width: "250px"
         }}
-      />
+      >
+
+        <option value="">
+          All Rarities
+        </option>
+
+        <option value="common">
+          Common
+        </option>
+
+        <option value="uncommon">
+          Uncommon
+        </option>
+
+        <option value="rare">
+          Rare
+        </option>
+
+        <option value="mythic">
+          Mythic
+        </option>
+
+      </select>
 
       <input
         type="text"
