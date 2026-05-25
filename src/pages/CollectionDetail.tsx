@@ -33,6 +33,8 @@ function CollectionDetail() {
 
   const [rarityFilter, setRarityFilter] = useState("")
 
+  const [nameFilter, setNameFilter] = useState("")
+
   useEffect(() => {
 
     axios
@@ -41,7 +43,8 @@ function CollectionDetail() {
         {
           params: {
             type: typeFilter,
-            rarity: rarityFilter
+            rarity: rarityFilter,
+            name: nameFilter
           }
         }
       )
@@ -56,7 +59,7 @@ function CollectionDetail() {
 
       })
 
-  }, [id, typeFilter, rarityFilter])
+  }, [id, typeFilter, rarityFilter, nameFilter])
 
   return (
 
@@ -91,6 +94,25 @@ function CollectionDetail() {
 
         onChange={(event) =>
           setRarityFilter(event.target.value)
+        }
+
+        style={{
+          padding: "10px",
+          marginBottom: "20px",
+          marginLeft: "10px",
+          width: "250px"
+        }}
+      />
+
+      <input
+        type="text"
+
+        placeholder="Search by card name"
+
+        value={nameFilter}
+
+        onChange={(event) =>
+          setNameFilter(event.target.value)
         }
 
         style={{
