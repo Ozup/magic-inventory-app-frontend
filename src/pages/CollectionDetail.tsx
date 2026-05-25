@@ -29,10 +29,19 @@ function CollectionDetail() {
 
   const [cards, setCards] = useState<Card[]>([])
 
+  const [typeFilter, setTypeFilter] = useState("")
+
   useEffect(() => {
 
     axios
-      .get(`http://127.0.0.1:8000/collections/${id}/cards`)
+      .get(
+        `http://127.0.0.1:8000/collections/${id}/cards`,
+        {
+          params: {
+            type: typeFilter
+          }
+        }
+      )
       .then((response) => {
 
         setCards(response.data)
@@ -44,13 +53,31 @@ function CollectionDetail() {
 
       })
 
-  }, [id])
+  }, [id, typeFilter])
 
   return (
 
     <div style={{ padding: "20px" }}>
 
       <h1>Collection Detail</h1>
+
+      <input
+        type="text"
+
+        placeholder="Filter by type"
+
+        value={typeFilter}
+
+        onChange={(event) =>
+          setTypeFilter(event.target.value)
+        }
+
+        style={{
+          padding: "10px",
+          marginBottom: "20px",
+          width: "250px"
+        }}
+      />
 
       <div
         style={{
