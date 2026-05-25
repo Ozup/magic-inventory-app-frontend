@@ -13,6 +13,7 @@ type Card = {
   quantity: number
 
   card: {
+    id: number
     name: string
     type_line: string
     image_url: string
@@ -257,7 +258,7 @@ function CollectionDetail() {
               quantity={item.quantity}
 
               setName={item.card.set_name}
-              collectionId={id}
+              collectionId={id!}
 
               cardId={item.card.id}
 

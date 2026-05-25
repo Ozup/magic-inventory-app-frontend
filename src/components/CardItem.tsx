@@ -57,6 +57,32 @@ function CardItem({
 
       })
   }
+  const updateQuantity = (
+    newQuantity: number
+  ) => {
+
+    axios
+      .patch(
+        `http://127.0.0.1:8000/collections/${collectionId}/cards/${cardId}/quantity`,
+        null,
+        {
+          params: {
+            quantity: newQuantity
+          }
+        }
+      )
+      .then(() => {
+
+        onCardRemoved()
+
+      })
+      .catch((error) => {
+
+        console.error(error)
+
+      })
+  }
+
 
   return (
 
@@ -100,9 +126,50 @@ function CardItem({
         CMC: {cmc}
       </p>
 
-      <p>
-        Quantity: {quantity}
-      </p>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          marginTop: "10px"
+        }}
+      >
+
+        <button
+          onClick={() =>
+            updateQuantity(quantity - 1)
+          }
+
+          style={{
+            padding: "5px 10px",
+            cursor: "pointer"
+          }}
+        >
+
+          -
+
+        </button>
+
+        <span>
+          Quantity: {quantity}
+        </span>
+
+        <button
+          onClick={() =>
+            updateQuantity(quantity + 1)
+          }
+
+          style={{
+            padding: "5px 10px",
+            cursor: "pointer"
+          }}
+        >
+
+          +
+
+        </button>
+
+      </div>
 
       <button
         onClick={removeCard}
