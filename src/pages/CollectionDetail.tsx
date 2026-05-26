@@ -91,34 +91,6 @@ function CollectionDetail() {
     sortBy
   ])
 
-  if (loading) {
-
-    return (
-
-      <div
-        style={{
-          padding: "20px"
-        }}
-      >
-
-        <h1>Collection Detail</h1>
-
-        <div
-          style={{
-            marginTop: "20px",
-            color: "gray"
-          }}
-        >
-
-          Loading cards...
-
-        </div>
-
-      </div>
-
-    )
-  }
-
   return (
 
     <div style={{ padding: "20px" }}>
@@ -275,6 +247,24 @@ function CollectionDetail() {
       </select>
 
       {
+        loading && (
+
+          <div
+            style={{
+              marginBottom: "20px",
+              color: "gray"
+            }}
+          >
+
+            Loading cards...
+
+          </div>
+
+        )
+      }
+
+      {
+        !loading &&
         cards.length === 0 && (
 
           <div
