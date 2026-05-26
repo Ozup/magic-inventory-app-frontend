@@ -32,15 +32,24 @@ function CollectionDetail() {
 
   const [cards, setCards] = useState<Card[]>([])
 
-  const [typeFilter, setTypeFilter] = useState("")
+  const [loading, setLoading] =
+    useState(true)
 
-  const [rarityFilter, setRarityFilter] = useState("")
+  const [typeFilter, setTypeFilter] =
+    useState("")
 
-  const [nameFilter, setNameFilter] = useState("")
+  const [rarityFilter, setRarityFilter] =
+    useState("")
 
-  const [sortBy, setSortBy] = useState("")
+  const [nameFilter, setNameFilter] =
+    useState("")
+
+  const [sortBy, setSortBy] =
+    useState("")
 
   const fetchCards = () => {
+
+    setLoading(true)
 
     axios
       .get(
@@ -58,10 +67,14 @@ function CollectionDetail() {
 
         setCards(response.data)
 
+        setLoading(false)
+
       })
       .catch((error) => {
 
         console.error(error)
+
+        setLoading(false)
 
       })
   }
@@ -77,6 +90,34 @@ function CollectionDetail() {
     nameFilter,
     sortBy
   ])
+
+  if (loading) {
+
+    return (
+
+      <div
+        style={{
+          padding: "20px"
+        }}
+      >
+
+        <h1>Collection Detail</h1>
+
+        <div
+          style={{
+            marginTop: "20px",
+            color: "gray"
+          }}
+        >
+
+          Loading cards...
+
+        </div>
+
+      </div>
+
+    )
+  }
 
   return (
 
@@ -232,6 +273,23 @@ function CollectionDetail() {
         </option>
 
       </select>
+
+      {
+        cards.length === 0 && (
+
+          <div
+            style={{
+              marginTop: "20px",
+              color: "gray"
+            }}
+          >
+
+            This collection is empty
+
+          </div>
+
+        )
+      }
 
       <div
         style={{
