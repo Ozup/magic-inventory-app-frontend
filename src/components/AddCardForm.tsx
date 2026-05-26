@@ -13,6 +13,12 @@ type Suggestion = {
 
   set_name: string
 
+  set_code: string
+
+  collector_number: string
+
+  rarity: string
+
   image_url: string
 
   scryfall_id: string
@@ -24,6 +30,9 @@ function AddCardForm({
 }: Props) {
 
   const [cardName, setCardName] = useState("")
+
+  const [selectedCardId, setSelectedCardId] =
+    useState("")
 
   const [suggestions, setSuggestions] = useState<
     Suggestion[]
@@ -65,21 +74,17 @@ function AddCardForm({
 
   const addCard = () => {
 
-    if (!cardName) return
+    if (!selectedCardId) return
 
     axios
       .post(
-        `http://127.0.0.1:8000/collections/${collectionId}/cards/by-name`,
-        null,
-        {
-          params: {
-            card_name: cardName
-          }
-        }
+        `http://127.0.0.1:8000/collections/${collectionId}/cards/by-scryfall-id/${selectedCardId}`
       )
       .then(() => {
 
         setCardName("")
+
+        setSelectedCardId("")
 
         setSuggestions([])
 
@@ -139,11 +144,13 @@ function AddCardForm({
           <div
             style={{
               border: "1px solid #ccc",
-              width: "350px",
+              width: "420px",
               backgroundColor: "white",
               marginTop: "5px",
               borderRadius: "8px",
-              overflow: "hidden"
+              overflow: "hidden",
+              maxHeight: "500px",
+              overflowY: "auto"
             }}
           >
 
@@ -155,7 +162,13 @@ function AddCardForm({
 
                   onClick={() => {
 
-                    setCardName(suggestion.name)
+                    setCardName(
+                      suggestion.name
+                    )
+
+                    setSelectedCardId(
+                      suggestion.scryfall_id
+                    )
 
                     setSuggestions([])
                   }}
@@ -183,7 +196,11 @@ function AddCardForm({
 
                   <div>
 
-                    <div>
+                    <div
+                      style={{
+                        fontWeight: "bold"
+                      }}
+                    >
                       {suggestion.name}
                     </div>
 
@@ -195,6 +212,12 @@ function AddCardForm({
                     >
 
                       {suggestion.set_name}
+                      {" • "}
+                      {suggestion.set_code}
+                      {" • #"}
+                      {suggestion.collector_number}
+                      {" • "}
+                      {suggestion.rarity}
 
                     </div>
 
