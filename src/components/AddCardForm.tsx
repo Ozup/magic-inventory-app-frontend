@@ -8,6 +8,16 @@ type Props = {
   onCardAdded: () => void
 }
 
+type Suggestion = {
+  name: string
+
+  set_name: string
+
+  image_url: string
+
+  scryfall_id: string
+}
+
 function AddCardForm({
   collectionId,
   onCardAdded
@@ -16,7 +26,7 @@ function AddCardForm({
   const [cardName, setCardName] = useState("")
 
   const [suggestions, setSuggestions] = useState<
-    string[]
+    Suggestion[]
   >([])
 
   const fetchSuggestions = (
@@ -59,7 +69,13 @@ function AddCardForm({
 
     axios
       .post(
-        `http://127.0.0.1:8000/collections/${collectionId}/cards/by-name/${cardName}`
+        `http://127.0.0.1:8000/collections/${collectionId}/cards/by-name`,
+        null,
+        {
+          params: {
+            card_name: cardName
+          }
+        }
       )
       .then(() => {
 
@@ -123,9 +139,11 @@ function AddCardForm({
           <div
             style={{
               border: "1px solid #ccc",
-              width: "250px",
+              width: "350px",
               backgroundColor: "white",
-              marginTop: "5px"
+              marginTop: "5px",
+              borderRadius: "8px",
+              overflow: "hidden"
             }}
           >
 
@@ -133,22 +151,54 @@ function AddCardForm({
               suggestions.map((suggestion) => (
 
                 <div
-                  key={suggestion}
+                  key={suggestion.scryfall_id}
 
                   onClick={() => {
 
-                    setCardName(suggestion)
+                    setCardName(suggestion.name)
 
                     setSuggestions([])
                   }}
 
                   style={{
                     padding: "8px",
-                    cursor: "pointer"
+                    cursor: "pointer",
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "center",
+                    borderBottom: "1px solid #ddd"
                   }}
                 >
 
-                  {suggestion}
+                  <img
+                    src={suggestion.image_url}
+
+                    alt={suggestion.name}
+
+                    style={{
+                      width: "50px",
+                      borderRadius: "4px"
+                    }}
+                  />
+
+                  <div>
+
+                    <div>
+                      {suggestion.name}
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        color: "gray"
+                      }}
+                    >
+
+                      {suggestion.set_name}
+
+                    </div>
+
+                  </div>
 
                 </div>
 
