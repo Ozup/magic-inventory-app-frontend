@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import axios from "axios"
 
@@ -29,22 +29,35 @@ function AddCardForm({
   onCardAdded
 }: Props) {
 
-  const [cardName, setCardName] = useState("")
-
-  const [selectedCardId, setSelectedCardId] =
+  const [cardName, setCardName] =
     useState("")
 
-  const [suggestions, setSuggestions] = useState<
-    Suggestion[]
-  >([])
+  const [debouncedCardName,
+  setDebouncedCardName] =
+    useState("")
 
-  const fetchSuggestions = (
-    value: string
-  ) => {
+  const [selectedCardId,
+  setSelectedCardId] =
+    useState("")
 
-    setCardName(value)
+  const [suggestions, setSuggestions] =
+    useState<Suggestion[]>([])
 
-    if (!value) {
+  useEffect(() => {
+
+    const timeout = setTimeout(() => {
+
+      setDebouncedCardName(cardName)
+
+    }, 300)
+
+    return () => clearTimeout(timeout)
+
+  }, [cardName])
+
+  useEffect(() => {
+
+    if (!debouncedCardName) {
 
       setSuggestions([])
 
@@ -56,7 +69,7 @@ function AddCardForm({
         "http://127.0.0.1:8000/cards/autocomplete",
         {
           params: {
-            query: value
+            query: debouncedCardName
           }
         }
       )
@@ -70,7 +83,8 @@ function AddCardForm({
         console.error(error)
 
       })
-  }
+
+  }, [debouncedCardName])
 
   const addCard = () => {
 
@@ -83,6 +97,8 @@ function AddCardForm({
       .then(() => {
 
         setCardName("")
+
+        setDebouncedCardName("")
 
         setSelectedCardId("")
 
@@ -115,7 +131,7 @@ function AddCardForm({
         value={cardName}
 
         onChange={(event) =>
-          fetchSuggestions(event.target.value)
+          setCardName(event.target.value)
         }
 
         style={{
