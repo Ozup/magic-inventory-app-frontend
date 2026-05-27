@@ -23,15 +23,8 @@ type CardItemProps = {
 function CardItem({
   name,
   imageUrl,
-  typeLine,
-
-  manaCost,
-  rarity,
-  cmc,
 
   quantity,
-
-  setName,
 
   collectionId,
 
@@ -57,6 +50,7 @@ function CardItem({
 
       })
   }
+
   const updateQuantity = (
     newQuantity: number
   ) => {
@@ -83,16 +77,16 @@ function CardItem({
       })
   }
 
-
   return (
 
     <div
       style={{
-        border: "1px solid #ccc",
-        borderRadius: "10px",
-        padding: "12px",
+        border: "1px solid #ddd",
+        borderRadius: "12px",
+        padding: "10px",
         width: "220px",
-        boxShadow: "0 2px 5px rgba(0,0,0,0.1)"
+        boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+        backgroundColor: "white"
       }}
     >
 
@@ -102,36 +96,29 @@ function CardItem({
 
         style={{
           width: "100%",
-          borderRadius: "8px"
+          borderRadius: "10px",
+          cursor: "pointer"
         }}
       />
 
-      <h3>{name}</h3>
+      <h3
+        style={{
+          fontSize: "16px",
+          marginTop: "10px",
+          marginBottom: "10px"
+        }}
+      >
 
-      <p>{typeLine}</p>
+        {name}
 
-      <p>
-        Mana Cost: {manaCost}
-      </p>
-
-      <p>
-        Rarity: {rarity}
-      </p>
-
-      <p>
-        Set: {setName}
-      </p>
-
-      <p>
-        CMC: {cmc}
-      </p>
+      </h3>
 
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "10px",
-          marginTop: "10px"
+          justifyContent: "center",
+          gap: "10px"
         }}
       >
 
@@ -140,9 +127,19 @@ function CardItem({
             updateQuantity(quantity - 1)
           }
 
+          disabled={quantity <= 1}
+
           style={{
             padding: "5px 10px",
-            cursor: "pointer"
+            cursor:
+              quantity <= 1
+                ? "not-allowed"
+                : "pointer",
+
+            opacity:
+              quantity <= 1
+                ? 0.5
+                : 1
           }}
         >
 
@@ -150,8 +147,14 @@ function CardItem({
 
         </button>
 
-        <span>
-          Quantity: {quantity}
+        <span
+          style={{
+            fontWeight: "bold"
+          }}
+        >
+
+          {quantity}
+
         </span>
 
         <button
@@ -175,9 +178,12 @@ function CardItem({
         onClick={removeCard}
 
         style={{
-          marginTop: "10px",
+          marginTop: "12px",
           padding: "8px",
-          cursor: "pointer"
+          width: "100%",
+          cursor: "pointer",
+          borderRadius: "8px",
+          border: "1px solid #ccc"
         }}
       >
 
