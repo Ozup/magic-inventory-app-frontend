@@ -45,6 +45,22 @@ function CollectionDetail() {
   setCollectionType] =
     useState("")
 
+  const [ownedCards,
+  setOwnedCards] =
+    useState(0)
+
+  const [totalCards,
+  setTotalCards] =
+    useState(0)
+
+  const [duplicates,
+  setDuplicates] =
+    useState(0)
+
+  const [completionPercentage,
+  setCompletionPercentage] =
+    useState(0)
+
   const [loading, setLoading] =
     useState(true)
 
@@ -76,6 +92,22 @@ function CollectionDetail() {
 
         setCollectionType(
           response.data.type
+        )
+
+        setOwnedCards(
+          response.data.owned_cards
+        )
+
+        setTotalCards(
+          response.data.total_cards
+        )
+
+        setDuplicates(
+          response.data.duplicates
+        )
+
+        setCompletionPercentage(
+          response.data.completion_percentage
         )
 
       })
@@ -170,6 +202,73 @@ function CollectionDetail() {
           }
 
         </h1>
+
+        {
+          collectionType === "ALBUM"
+          && (
+
+            <div
+              style={{
+                marginTop: "15px",
+
+                padding: "16px",
+
+                backgroundColor: "#f5f5f5",
+
+                borderRadius: "12px",
+
+                display: "flex",
+
+                gap: "30px",
+
+                flexWrap: "wrap"
+              }}
+            >
+
+              <div>
+
+                <strong>
+                  Collected:
+                </strong>
+
+                {" "}
+
+                {ownedCards}
+
+                {" / "}
+
+                {totalCards}
+
+              </div>
+
+              <div>
+
+                <strong>
+                  Completion:
+                </strong>
+
+                {" "}
+
+                {completionPercentage}%
+
+              </div>
+
+              <div>
+
+                <strong>
+                  Duplicates:
+                </strong>
+
+                {" "}
+
+                {duplicates}
+
+              </div>
+
+            </div>
+
+          )
+        }
 
       </div>
 
