@@ -30,6 +30,11 @@ type CardItemProps = {
     |
     "large"
 
+  onQuantityChange: (
+    cardId: number,
+    quantity: number
+  ) => void
+
   onCardRemoved: () => void
 }
 
@@ -56,6 +61,8 @@ function CardItem({
 
   cardSize,
 
+  onQuantityChange,
+
   onCardRemoved
 }: CardItemProps) {
 
@@ -76,32 +83,6 @@ function CardItem({
     axios
       .delete(
         `http://127.0.0.1:8000/collections/${collectionId}/cards/${cardId}`
-      )
-      .then(() => {
-
-        onCardRemoved()
-
-      })
-      .catch((error) => {
-
-        console.error(error)
-
-      })
-  }
-
-  const updateQuantity = (
-    newQuantity: number
-  ) => {
-
-    axios
-      .patch(
-        `http://127.0.0.1:8000/collections/${collectionId}/cards/${cardId}/quantity`,
-        null,
-        {
-          params: {
-            quantity: newQuantity
-          }
-        }
       )
       .then(() => {
 
@@ -254,7 +235,10 @@ function CardItem({
                     return
                   }
 
-                  updateQuantity(quantity - 1)
+                  onQuantityChange(
+                    cardId,
+                    quantity - 1
+                  )
                 }}
 
                 disabled={
@@ -306,7 +290,10 @@ function CardItem({
 
               <button
                 onClick={() =>
-                  updateQuantity(quantity + 1)
+                  onQuantityChange(
+                    cardId,
+                    quantity + 1
+                  )
                 }
 
                 style={{

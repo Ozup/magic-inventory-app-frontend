@@ -37,6 +37,12 @@ function CollectionDetail() {
   const [cards, setCards] =
     useState<Card[]>([])
 
+  const [editedQuantities,
+  setEditedQuantities] =
+    useState<
+      Record<number, number>
+    >({})
+
   const [collectionName,
   setCollectionName] =
     useState("")
@@ -91,6 +97,86 @@ function CollectionDetail() {
 
   const [sortBy, setSortBy] =
     useState("")
+
+  const updateLocalQuantity = (
+    cardId: number,
+    quantity: number
+  ) => {
+
+    setEditedQuantities(
+      (prev) => ({
+
+        ...prev,
+
+        [cardId]: quantity
+      })
+    )
+  }
+
+  const saveChanges = async () => {
+
+    try {
+
+      await Promise.all(
+
+        cards.map((item) => {
+
+          const quantity =
+            editedQuantities[
+              item.card.id
+            ]
+
+          return axios.patch(
+            `http://127.0.0.1:8000/collections/${id}/cards/${item.card.id}/quantity`,
+            null,
+            {
+              params: {
+                quantity
+              }
+            }
+          )
+        })
+      )
+
+      fetchCards()
+
+      setViewMode("view")
+
+      alert(
+        "Changes saved!"
+      )
+
+    } catch (error) {
+
+      console.error(error)
+
+      alert(
+        "Failed to save changes"
+      )
+    }
+  }
+
+  const cancelChanges = () => {
+
+    const quantities:
+      Record<number, number> = {}
+
+    cards.forEach((item) => {
+
+      quantities[
+        item.card.id
+      ] = item.quantity
+    })
+
+    setEditedQuantities(
+      quantities
+    )
+    setViewMode("view")
+
+    alert(
+      "Changes discarded"
+    )
+  }
 
   const fetchCards = () => {
 
@@ -148,6 +234,22 @@ function CollectionDetail() {
       .then((response) => {
 
         setCards(response.data)
+
+        const quantities:
+          Record<number, number> = {}
+
+        response.data.forEach(
+          (item: Card) => {
+
+            quantities[
+              item.card.id
+            ] = item.quantity
+          }
+        )
+
+        setEditedQuantities(
+          quantities
+        )
 
         setLoading(false)
 
@@ -318,33 +420,89 @@ function CollectionDetail() {
 
               </div>
 
-              <button
-                onClick={() =>
-                  setViewMode(
-                    viewMode === "view"
-                      ? "edit"
-                      : "view"
-                  )
-                }
+              {
+                viewMode === "view"
+                && (
 
-                style={{
-                  padding: "10px 16px",
+                  <button
+                    onClick={() =>
+                      setViewMode("edit")
+                    }
 
-                  borderRadius: "10px",
+                    style={{
+                      padding: "10px 16px",
 
-                  border: "1px solid #ccc",
+                      borderRadius: "10px",
 
-                  cursor: "pointer"
-                }}
-              >
+                      border: "1px solid #ccc",
 
-                {
-                  viewMode === "view"
-                    ? "Edit Album"
-                    : "View Album"
-                }
+                      cursor: "pointer"
+                    }}
+                  >
 
-              </button>
+                    Edit Album
+
+                  </button>
+
+                )
+              }
+
+              {
+                viewMode === "edit"
+                && (
+
+                  <>
+
+                    <button
+                      onClick={saveChanges}
+
+                      style={{
+                        padding: "10px 16px",
+
+                        borderRadius: "10px",
+
+                        border:
+                          "1px solid #4caf50",
+
+                        backgroundColor:
+                          "#4caf50",
+
+                        color: "white",
+
+                        cursor: "pointer"
+                      }}
+                    >
+
+                      Save Changes
+
+                    </button>
+
+                    <button
+                      onClick={cancelChanges}
+
+                      style={{
+                        padding: "10px 16px",
+
+                        borderRadius: "10px",
+
+                        border:
+                          "1px solid #ccc",
+
+                        backgroundColor:
+                          "white",
+
+                        cursor: "pointer"
+                      }}
+                    >
+
+                      Cancel
+
+                    </button>
+
+                  </>
+
+                )
+              }
 
               <div
                 style={{
@@ -452,201 +610,6 @@ function CollectionDetail() {
         )
       }
 
-      {
-        (
-          collectionType !== "ALBUM"
-          ||
-          viewMode === "edit"
-        )
-        && (
-
-          <>
-
-            <select
-              value={typeFilter}
-
-              onChange={(event) =>
-                setTypeFilter(
-                  event.target.value
-                )
-              }
-
-              style={{
-                padding: "10px",
-                marginBottom: "20px",
-                width: "250px"
-              }}
-            >
-
-              <option value="">
-                All Types
-              </option>
-
-              <option value="Creature">
-                Creature
-              </option>
-
-              <option value="Instant">
-                Instant
-              </option>
-
-              <option value="Sorcery">
-                Sorcery
-              </option>
-
-              <option value="Artifact">
-                Artifact
-              </option>
-
-              <option value="Enchantment">
-                Enchantment
-              </option>
-
-              <option value="Land">
-                Land
-              </option>
-
-              <option value="Planeswalker">
-                Planeswalker
-              </option>
-
-            </select>
-
-            <select
-              value={rarityFilter}
-
-              onChange={(event) =>
-                setRarityFilter(
-                  event.target.value
-                )
-              }
-
-              style={{
-                padding: "10px",
-                marginBottom: "20px",
-                marginLeft: "10px",
-                width: "250px"
-              }}
-            >
-
-              <option value="">
-                All Rarities
-              </option>
-
-              <option value="common">
-                Common
-              </option>
-
-              <option value="uncommon">
-                Uncommon
-              </option>
-
-              <option value="rare">
-                Rare
-              </option>
-
-              <option value="mythic">
-                Mythic
-              </option>
-
-            </select>
-
-            <input
-              type="text"
-
-              placeholder="Search by card name"
-
-              value={nameFilter}
-
-              onChange={(event) =>
-                setNameFilter(
-                  event.target.value
-                )
-              }
-
-              style={{
-                padding: "10px",
-                marginBottom: "20px",
-                marginLeft: "10px",
-                width: "250px"
-              }}
-            />
-
-            <select
-              value={sortBy}
-
-              onChange={(event) =>
-                setSortBy(
-                  event.target.value
-                )
-              }
-
-              style={{
-                padding: "10px",
-                marginBottom: "20px",
-                marginLeft: "10px",
-                width: "250px"
-              }}
-            >
-
-              <option value="">
-                No Sorting
-              </option>
-
-              <option value="name">
-                Sort by Name
-              </option>
-
-              <option value="cmc">
-                Sort by CMC
-              </option>
-
-              <option value="rarity">
-                Sort by Rarity
-              </option>
-
-            </select>
-
-          </>
-
-        )
-      }
-
-      {
-        loading && (
-
-          <div
-            style={{
-              marginBottom: "20px",
-              color: "gray"
-            }}
-          >
-
-            Loading cards...
-
-          </div>
-
-        )
-      }
-
-      {
-        !loading &&
-        cards.length === 0 && (
-
-          <div
-            style={{
-              marginTop: "20px",
-              color: "gray"
-            }}
-          >
-
-            This collection is empty
-
-          </div>
-
-        )
-      }
-
       <div
         style={{
           display: "flex",
@@ -689,7 +652,9 @@ function CollectionDetail() {
               }
 
               quantity={
-                item.quantity
+                editedQuantities[
+                  item.card.id
+                ] ?? item.quantity
               }
 
               setName={
@@ -707,6 +672,10 @@ function CollectionDetail() {
               viewMode={viewMode}
 
               cardSize={cardSize}
+
+              onQuantityChange={
+                updateLocalQuantity
+              }
 
               onCardRemoved={
                 fetchCards
