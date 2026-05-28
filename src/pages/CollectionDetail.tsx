@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+
+import {
+  Link,
+  useParams
+} from "react-router-dom"
 
 import axios from "axios"
 
@@ -30,7 +34,12 @@ function CollectionDetail() {
 
   const { id } = useParams()
 
-  const [cards, setCards] = useState<Card[]>([])
+  const [cards, setCards] =
+    useState<Card[]>([])
+
+  const [collectionName,
+  setCollectionName] =
+    useState("")
 
   const [loading, setLoading] =
     useState(true)
@@ -50,6 +59,23 @@ function CollectionDetail() {
   const fetchCards = () => {
 
     setLoading(true)
+
+    axios
+      .get(
+        `http://127.0.0.1:8000/collections/${id}`
+      )
+      .then((response) => {
+
+        setCollectionName(
+          response.data.name
+        )
+
+      })
+      .catch((error) => {
+
+        console.error(error)
+
+      })
 
     axios
       .get(
@@ -95,7 +121,41 @@ function CollectionDetail() {
 
     <div style={{ padding: "20px" }}>
 
-      <h1>Collection Detail</h1>
+      <div
+        style={{
+          marginBottom: "25px"
+        }}
+      >
+
+        <Link
+          to="/"
+
+          style={{
+            textDecoration: "none",
+            color: "#555",
+            fontSize: "14px"
+          }}
+        >
+
+          ← Back to Collections
+
+        </Link>
+
+        <h1
+          style={{
+            marginTop: "10px",
+            marginBottom: "0px"
+          }}
+        >
+
+          {
+            collectionName ||
+            "Collection"
+          }
+
+        </h1>
+
+      </div>
 
       {
         id && (
@@ -306,6 +366,7 @@ function CollectionDetail() {
               quantity={item.quantity}
 
               setName={item.card.set_name}
+
               collectionId={id!}
 
               cardId={item.card.id}
