@@ -150,8 +150,22 @@ function CardItem({
 
           style={{
             width: "100%",
+
             borderRadius: "10px",
-            cursor: "pointer"
+
+            cursor: "pointer",
+
+            filter:
+              quantity === 0
+                ? "grayscale(100%)"
+                : "grayscale(0%)",
+
+            opacity:
+              quantity === 0
+                ? 0.6
+                : 1,
+
+            transition: "0.2s ease"
           }}
         />
 
@@ -352,7 +366,17 @@ function CardItem({
 
                 style={{
                   width: "100%",
-                  borderRadius: "12px"
+                  borderRadius: "12px",
+
+                  filter:
+                    quantity === 0
+                      ? "grayscale(100%)"
+                      : "grayscale(0%)",
+
+                  opacity:
+                    quantity === 0
+                      ? 0.6
+                      : 1
                 }}
               />
 
