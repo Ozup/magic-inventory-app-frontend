@@ -129,7 +129,7 @@ function CardItem({
 
               cardSize === "compact"
 
-                ? "220px"
+                ? "120px"
 
                 :
 
@@ -137,7 +137,7 @@ function CardItem({
 
                   ? "150px"
 
-                  : "120px",
+                  : "220px",
 
           backgroundColor: "white",
 
