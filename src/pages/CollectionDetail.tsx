@@ -119,23 +119,22 @@ function CollectionDetail() {
 
       await Promise.all(
 
-        cards.map((item) => {
+        Object.entries(
+          editedQuantities
+        ).map(
+          ([cardId, quantity]) => {
 
-          const quantity =
-            editedQuantities[
-              item.card.id
-            ]
-
-          return axios.patch(
-            `http://127.0.0.1:8000/collections/${id}/cards/${item.card.id}/quantity`,
-            null,
-            {
-              params: {
-                quantity
+            return axios.patch(
+              `http://127.0.0.1:8000/collections/${id}/cards/${cardId}/quantity`,
+              null,
+              {
+                params: {
+                  quantity
+                }
               }
-            }
-          )
-        })
+            )
+          }
+        )
       )
 
       fetchCards()
