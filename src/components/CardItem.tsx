@@ -19,6 +19,8 @@ type CardItemProps = {
 
   cardId: number
 
+  collectionType: string
+
   onCardRemoved: () => void
 }
 
@@ -38,6 +40,8 @@ function CardItem({
   collectionId,
 
   cardId,
+
+  collectionType,
 
   onCardRemoved
 }: CardItemProps) {
@@ -173,22 +177,51 @@ function CardItem({
         >
 
           <button
-            onClick={() =>
-              updateQuantity(quantity - 1)
-            }
+            onClick={() => {
 
-            disabled={quantity <= 1}
+              if (
+                collectionType !== "ALBUM"
+                &&
+                quantity <= 1
+              ) {
+                return
+              }
+
+              if (
+                collectionType === "ALBUM"
+                &&
+                quantity < 0
+              ) {
+                return
+              }
+
+              updateQuantity(quantity - 1)
+            }}
+
+            disabled={
+              collectionType !== "ALBUM"
+              &&
+              quantity <= 1
+            }
 
             style={{
               padding: "5px 10px",
 
               cursor:
-                quantity <= 1
+                (
+                  collectionType !== "ALBUM"
+                  &&
+                  quantity <= 1
+                )
                   ? "not-allowed"
                   : "pointer",
 
               opacity:
-                quantity <= 1
+                (
+                  collectionType !== "ALBUM"
+                  &&
+                  quantity <= 1
+                )
                   ? 0.5
                   : 1,
 

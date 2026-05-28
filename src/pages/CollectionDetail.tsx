@@ -41,6 +41,10 @@ function CollectionDetail() {
   setCollectionName] =
     useState("")
 
+  const [collectionType,
+  setCollectionType] =
+    useState("")
+
   const [loading, setLoading] =
     useState(true)
 
@@ -68,6 +72,10 @@ function CollectionDetail() {
 
         setCollectionName(
           response.data.name
+        )
+
+        setCollectionType(
+          response.data.type
         )
 
       })
@@ -378,6 +386,10 @@ function CollectionDetail() {
               collectionId={id!}
 
               cardId={item.card.id}
+
+              collectionType={
+                collectionType
+              }
 
               onCardRemoved={fetchCards}
             />
