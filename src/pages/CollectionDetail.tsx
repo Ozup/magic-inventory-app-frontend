@@ -236,20 +236,31 @@ function CollectionDetail() {
 
         setCards(response.data)
 
-        const quantities:
-          Record<number, number> = {}
-
-        response.data.forEach(
-          (item: Card) => {
-
-            quantities[
-              item.card.id
-            ] = item.quantity
-          }
-        )
-
         setEditedQuantities(
-          quantities
+          (prev) => {
+
+            const updated = {
+              ...prev
+            }
+
+            response.data.forEach(
+              (item: Card) => {
+
+                if (
+                  updated[
+                    item.card.id
+                  ] === undefined
+                ) {
+
+                  updated[
+                    item.card.id
+                  ] = item.quantity
+                }
+              }
+            )
+
+            return updated
+          }
         )
 
         setLoading(false)
