@@ -45,6 +45,9 @@ function CardItem({
   const [showModal, setShowModal] =
     useState(false)
 
+  const [isHovered, setIsHovered] =
+    useState(false)
+
   const removeCard = () => {
 
     const confirmed = window.confirm(
@@ -100,15 +103,36 @@ function CardItem({
     <>
 
       <div
+        onMouseEnter={() =>
+          setIsHovered(true)
+        }
+
+        onMouseLeave={() =>
+          setIsHovered(false)
+        }
+
         style={{
           border: "1px solid #ddd",
-          borderRadius: "12px",
-          padding: "10px",
-          width: "220px",
-          boxShadow:
-            "0 2px 6px rgba(0,0,0,0.08)",
 
-          backgroundColor: "white"
+          borderRadius: "12px",
+
+          padding: "10px",
+
+          width: "220px",
+
+          backgroundColor: "white",
+
+          transition: "0.2s ease",
+
+          transform:
+            isHovered
+              ? "translateY(-6px)"
+              : "translateY(0px)",
+
+          boxShadow:
+            isHovered
+              ? "0 8px 20px rgba(0,0,0,0.18)"
+              : "0 2px 6px rgba(0,0,0,0.08)"
         }}
       >
 
@@ -166,7 +190,10 @@ function CardItem({
               opacity:
                 quantity <= 1
                   ? 0.5
-                  : 1
+                  : 1,
+
+              borderRadius: "6px",
+              border: "1px solid #ccc"
             }}
           >
 
@@ -176,7 +203,8 @@ function CardItem({
 
           <span
             style={{
-              fontWeight: "bold"
+              fontWeight: "bold",
+              fontSize: "16px"
             }}
           >
 
@@ -191,7 +219,10 @@ function CardItem({
 
             style={{
               padding: "5px 10px",
-              cursor: "pointer"
+              cursor: "pointer",
+
+              borderRadius: "6px",
+              border: "1px solid #ccc"
             }}
           >
 
@@ -206,11 +237,18 @@ function CardItem({
 
           style={{
             marginTop: "12px",
+
             padding: "8px",
+
             width: "100%",
+
             cursor: "pointer",
+
             borderRadius: "8px",
-            border: "1px solid #ccc"
+
+            border: "1px solid #ccc",
+
+            transition: "0.2s"
           }}
         >
 
@@ -230,16 +268,22 @@ function CardItem({
 
             style={{
               position: "fixed",
+
               top: 0,
               left: 0,
+
               width: "100%",
               height: "100%",
 
               backgroundColor:
-                "rgba(0,0,0,0.7)",
+                "rgba(0,0,0,0.75)",
+
+              backdropFilter: "blur(4px)",
 
               display: "flex",
+
               justifyContent: "center",
+
               alignItems: "center",
 
               zIndex: 1000
@@ -256,13 +300,16 @@ function CardItem({
 
                 padding: "20px",
 
-                borderRadius: "16px",
+                borderRadius: "18px",
 
                 width: "400px",
 
                 maxHeight: "90vh",
 
-                overflowY: "auto"
+                overflowY: "auto",
+
+                boxShadow:
+                  "0 10px 30px rgba(0,0,0,0.25)"
               }}
             >
 
@@ -278,7 +325,8 @@ function CardItem({
 
               <h2
                 style={{
-                  marginTop: "15px"
+                  marginTop: "15px",
+                  marginBottom: "15px"
                 }}
               >
 
@@ -333,10 +381,15 @@ function CardItem({
 
                 style={{
                   marginTop: "15px",
+
                   width: "100%",
+
                   padding: "10px",
+
                   cursor: "pointer",
+
                   borderRadius: "10px",
+
                   border: "1px solid #ccc"
                 }}
               >
