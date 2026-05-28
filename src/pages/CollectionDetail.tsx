@@ -45,6 +45,12 @@ function CollectionDetail() {
   setCollectionType] =
     useState("")
 
+  const [viewMode,
+  setViewMode] =
+    useState<"view" | "edit">(
+      "view"
+    )
+
   const [ownedCards,
   setOwnedCards] =
     useState(0)
@@ -221,7 +227,9 @@ function CollectionDetail() {
 
                 gap: "30px",
 
-                flexWrap: "wrap"
+                flexWrap: "wrap",
+
+                alignItems: "center"
               }}
             >
 
@@ -241,7 +249,11 @@ function CollectionDetail() {
 
               </div>
 
-              <div>
+              <div
+                style={{
+                  minWidth: "220px"
+                }}
+              >
 
                 <strong>
                   Completion:
@@ -250,6 +262,37 @@ function CollectionDetail() {
                 {" "}
 
                 {completionPercentage}%
+
+                <div
+                  style={{
+                    marginTop: "8px",
+
+                    width: "100%",
+
+                    height: "12px",
+
+                    backgroundColor: "#ddd",
+
+                    borderRadius: "999px",
+
+                    overflow: "hidden"
+                  }}
+                >
+
+                  <div
+                    style={{
+                      width:
+                        `${completionPercentage}%`,
+
+                      height: "100%",
+
+                      backgroundColor: "#4caf50",
+
+                      transition: "0.3s ease"
+                    }}
+                  />
+
+                </div>
 
               </div>
 
@@ -265,6 +308,36 @@ function CollectionDetail() {
 
               </div>
 
+              <button
+                onClick={() =>
+                  setViewMode(
+                    viewMode === "view"
+                      ? "edit"
+                      : "view"
+                  )
+                }
+
+                style={{
+                  padding: "10px 16px",
+
+                  borderRadius: "10px",
+
+                  border: "1px solid #ccc",
+
+                  cursor: "pointer",
+
+                  marginLeft: "auto"
+                }}
+              >
+
+                {
+                  viewMode === "view"
+                    ? "Edit Album"
+                    : "View Album"
+                }
+
+              </button>
+
             </div>
 
           )
@@ -273,7 +346,10 @@ function CollectionDetail() {
       </div>
 
       {
-        id && (
+        id
+        &&
+        collectionType !== "ALBUM"
+        && (
 
           <AddCardForm
             collectionId={id}
@@ -284,142 +360,165 @@ function CollectionDetail() {
         )
       }
 
-      <select
-        value={typeFilter}
+      {
+        (
+          collectionType !== "ALBUM"
+          ||
+          viewMode === "edit"
+        )
+        && (
 
-        onChange={(event) =>
-          setTypeFilter(event.target.value)
-        }
+          <>
 
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          width: "250px"
-        }}
-      >
+            <select
+              value={typeFilter}
 
-        <option value="">
-          All Types
-        </option>
+              onChange={(event) =>
+                setTypeFilter(
+                  event.target.value
+                )
+              }
 
-        <option value="Creature">
-          Creature
-        </option>
+              style={{
+                padding: "10px",
+                marginBottom: "20px",
+                width: "250px"
+              }}
+            >
 
-        <option value="Instant">
-          Instant
-        </option>
+              <option value="">
+                All Types
+              </option>
 
-        <option value="Sorcery">
-          Sorcery
-        </option>
+              <option value="Creature">
+                Creature
+              </option>
 
-        <option value="Artifact">
-          Artifact
-        </option>
+              <option value="Instant">
+                Instant
+              </option>
 
-        <option value="Enchantment">
-          Enchantment
-        </option>
+              <option value="Sorcery">
+                Sorcery
+              </option>
 
-        <option value="Land">
-          Land
-        </option>
+              <option value="Artifact">
+                Artifact
+              </option>
 
-        <option value="Planeswalker">
-          Planeswalker
-        </option>
+              <option value="Enchantment">
+                Enchantment
+              </option>
 
-      </select>
+              <option value="Land">
+                Land
+              </option>
 
-      <select
-        value={rarityFilter}
+              <option value="Planeswalker">
+                Planeswalker
+              </option>
 
-        onChange={(event) =>
-          setRarityFilter(event.target.value)
-        }
+            </select>
 
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          marginLeft: "10px",
-          width: "250px"
-        }}
-      >
+            <select
+              value={rarityFilter}
 
-        <option value="">
-          All Rarities
-        </option>
+              onChange={(event) =>
+                setRarityFilter(
+                  event.target.value
+                )
+              }
 
-        <option value="common">
-          Common
-        </option>
+              style={{
+                padding: "10px",
+                marginBottom: "20px",
+                marginLeft: "10px",
+                width: "250px"
+              }}
+            >
 
-        <option value="uncommon">
-          Uncommon
-        </option>
+              <option value="">
+                All Rarities
+              </option>
 
-        <option value="rare">
-          Rare
-        </option>
+              <option value="common">
+                Common
+              </option>
 
-        <option value="mythic">
-          Mythic
-        </option>
+              <option value="uncommon">
+                Uncommon
+              </option>
 
-      </select>
+              <option value="rare">
+                Rare
+              </option>
 
-      <input
-        type="text"
+              <option value="mythic">
+                Mythic
+              </option>
 
-        placeholder="Search by card name"
+            </select>
 
-        value={nameFilter}
+            <input
+              type="text"
 
-        onChange={(event) =>
-          setNameFilter(event.target.value)
-        }
+              placeholder="Search by card name"
 
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          marginLeft: "10px",
-          width: "250px"
-        }}
-      />
+              value={nameFilter}
 
-      <select
-        value={sortBy}
+              onChange={(event) =>
+                setNameFilter(
+                  event.target.value
+                )
+              }
 
-        onChange={(event) =>
-          setSortBy(event.target.value)
-        }
+              style={{
+                padding: "10px",
+                marginBottom: "20px",
+                marginLeft: "10px",
+                width: "250px"
+              }}
+            />
 
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          marginLeft: "10px",
-          width: "250px"
-        }}
-      >
+            <select
+              value={sortBy}
 
-        <option value="">
-          No Sorting
-        </option>
+              onChange={(event) =>
+                setSortBy(
+                  event.target.value
+                )
+              }
 
-        <option value="name">
-          Sort by Name
-        </option>
+              style={{
+                padding: "10px",
+                marginBottom: "20px",
+                marginLeft: "10px",
+                width: "250px"
+              }}
+            >
 
-        <option value="cmc">
-          Sort by CMC
-        </option>
+              <option value="">
+                No Sorting
+              </option>
 
-        <option value="rarity">
-          Sort by Rarity
-        </option>
+              <option value="name">
+                Sort by Name
+              </option>
 
-      </select>
+              <option value="cmc">
+                Sort by CMC
+              </option>
+
+              <option value="rarity">
+                Sort by Rarity
+              </option>
+
+            </select>
+
+          </>
+
+        )
+      }
 
       {
         loading && (
@@ -459,8 +558,13 @@ function CollectionDetail() {
       <div
         style={{
           display: "flex",
+
           flexWrap: "wrap",
-          gap: "16px"
+
+          gap:
+            viewMode === "view"
+              ? "10px"
+              : "16px"
         }}
       >
 
@@ -471,16 +575,34 @@ function CollectionDetail() {
               key={item.id}
 
               name={item.card.name}
-              imageUrl={item.card.image_url}
-              typeLine={item.card.type_line}
 
-              manaCost={item.card.mana_cost}
-              rarity={item.card.rarity}
-              cmc={item.card.cmc}
+              imageUrl={
+                item.card.image_url
+              }
 
-              quantity={item.quantity}
+              typeLine={
+                item.card.type_line
+              }
 
-              setName={item.card.set_name}
+              manaCost={
+                item.card.mana_cost
+              }
+
+              rarity={
+                item.card.rarity
+              }
+
+              cmc={
+                item.card.cmc
+              }
+
+              quantity={
+                item.quantity
+              }
+
+              setName={
+                item.card.set_name
+              }
 
               collectionId={id!}
 
@@ -490,7 +612,11 @@ function CollectionDetail() {
                 collectionType
               }
 
-              onCardRemoved={fetchCards}
+              viewMode={viewMode}
+
+              onCardRemoved={
+                fetchCards
+              }
             />
 
           ))

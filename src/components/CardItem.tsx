@@ -21,6 +21,8 @@ type CardItemProps = {
 
   collectionType: string
 
+  viewMode: "view" | "edit"
+
   onCardRemoved: () => void
 }
 
@@ -42,6 +44,8 @@ function CardItem({
   cardId,
 
   collectionType,
+
+  viewMode,
 
   onCardRemoved
 }: CardItemProps) {
@@ -120,9 +124,15 @@ function CardItem({
 
           borderRadius: "12px",
 
-          padding: "10px",
+          padding:
+            viewMode === "view"
+              ? "6px"
+              : "10px",
 
-          width: "220px",
+          width:
+            viewMode === "view"
+              ? "150px"
+              : "220px",
 
           backgroundColor: "white",
 
@@ -169,117 +179,133 @@ function CardItem({
           }}
         />
 
-        <h3
-          style={{
-            fontSize: "16px",
-            marginTop: "10px",
-            marginBottom: "10px"
-          }}
-        >
+        {
+          viewMode === "edit"
+          && (
 
-          {name}
+            <h3
+              style={{
+                fontSize: "16px",
+                marginTop: "10px",
+                marginBottom: "10px"
+              }}
+            >
 
-        </h3>
+              {name}
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px"
-          }}
-        >
+            </h3>
 
-          <button
-            onClick={() => {
-
-              if (
-                collectionType !== "ALBUM"
-                &&
-                quantity <= 1
-              ) {
-                return
-              }
-
-              if (
-                collectionType === "ALBUM"
-                &&
-                quantity < 0
-              ) {
-                return
-              }
-
-              updateQuantity(quantity - 1)
-            }}
-
-            disabled={
-              collectionType !== "ALBUM"
-              &&
-              quantity <= 1
-            }
-
-            style={{
-              padding: "5px 10px",
-
-              cursor:
-                (
-                  collectionType !== "ALBUM"
-                  &&
-                  quantity <= 1
-                )
-                  ? "not-allowed"
-                  : "pointer",
-
-              opacity:
-                (
-                  collectionType !== "ALBUM"
-                  &&
-                  quantity <= 1
-                )
-                  ? 0.5
-                  : 1,
-
-              borderRadius: "6px",
-              border: "1px solid #ccc"
-            }}
-          >
-
-            -
-
-          </button>
-
-          <span
-            style={{
-              fontWeight: "bold",
-              fontSize: "16px"
-            }}
-          >
-
-            {quantity}
-
-          </span>
-
-          <button
-            onClick={() =>
-              updateQuantity(quantity + 1)
-            }
-
-            style={{
-              padding: "5px 10px",
-              cursor: "pointer",
-
-              borderRadius: "6px",
-              border: "1px solid #ccc"
-            }}
-          >
-
-            +
-
-          </button>
-
-        </div>
+          )
+        }
 
         {
+          viewMode === "edit"
+          && (
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "10px"
+              }}
+            >
+
+              <button
+                onClick={() => {
+
+                  if (
+                    collectionType !== "ALBUM"
+                    &&
+                    quantity <= 1
+                  ) {
+                    return
+                  }
+
+                  if (
+                    collectionType === "ALBUM"
+                    &&
+                    quantity < 0
+                  ) {
+                    return
+                  }
+
+                  updateQuantity(quantity - 1)
+                }}
+
+                disabled={
+                  collectionType !== "ALBUM"
+                  &&
+                  quantity <= 1
+                }
+
+                style={{
+                  padding: "5px 10px",
+
+                  cursor:
+                    (
+                      collectionType !== "ALBUM"
+                      &&
+                      quantity <= 1
+                    )
+                      ? "not-allowed"
+                      : "pointer",
+
+                  opacity:
+                    (
+                      collectionType !== "ALBUM"
+                      &&
+                      quantity <= 1
+                    )
+                      ? 0.5
+                      : 1,
+
+                  borderRadius: "6px",
+                  border: "1px solid #ccc"
+                }}
+              >
+
+                -
+
+              </button>
+
+              <span
+                style={{
+                  fontWeight: "bold",
+                  fontSize: "16px"
+                }}
+              >
+
+                {quantity}
+
+              </span>
+
+              <button
+                onClick={() =>
+                  updateQuantity(quantity + 1)
+                }
+
+                style={{
+                  padding: "5px 10px",
+                  cursor: "pointer",
+
+                  borderRadius: "6px",
+                  border: "1px solid #ccc"
+                }}
+              >
+
+                +
+
+              </button>
+
+            </div>
+
+          )
+        }
+
+        {
+          viewMode === "edit"
+          &&
           collectionType !== "ALBUM"
           && (
 
