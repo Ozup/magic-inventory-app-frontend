@@ -23,6 +23,13 @@ type CardItemProps = {
 
   viewMode: "view" | "edit"
 
+  cardSize:
+    "compact"
+    |
+    "medium"
+    |
+    "large"
+
   onCardRemoved: () => void
 }
 
@@ -46,6 +53,8 @@ function CardItem({
   collectionType,
 
   viewMode,
+
+  cardSize,
 
   onCardRemoved
 }: CardItemProps) {
@@ -130,9 +139,24 @@ function CardItem({
               : "10px",
 
           width:
-            viewMode === "view"
-              ? "150px"
-              : "220px",
+
+            viewMode === "edit"
+
+              ? "220px"
+
+              :
+
+              cardSize === "compact"
+
+                ? "220px"
+
+                :
+
+                cardSize === "medium"
+
+                  ? "150px"
+
+                  : "120px",
 
           backgroundColor: "white",
 

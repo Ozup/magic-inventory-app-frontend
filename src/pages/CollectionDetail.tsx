@@ -51,6 +51,16 @@ function CollectionDetail() {
       "view"
     )
 
+  const [cardSize,
+  setCardSize] =
+    useState<
+      "compact"
+      |
+      "medium"
+      |
+      "large"
+    >("medium")
+
   const [ownedCards,
   setOwnedCards] =
     useState(0)
@@ -225,7 +235,7 @@ function CollectionDetail() {
 
                 display: "flex",
 
-                gap: "30px",
+                gap: "20px",
 
                 flexWrap: "wrap",
 
@@ -324,9 +334,7 @@ function CollectionDetail() {
 
                   border: "1px solid #ccc",
 
-                  cursor: "pointer",
-
-                  marginLeft: "auto"
+                  cursor: "pointer"
                 }}
               >
 
@@ -337,6 +345,90 @@ function CollectionDetail() {
                 }
 
               </button>
+
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px"
+                }}
+              >
+
+                <button
+                  onClick={() =>
+                    setCardSize("compact")
+                  }
+
+                  style={{
+                    padding: "8px 12px",
+
+                    borderRadius: "8px",
+
+                    border: "1px solid #ccc",
+
+                    cursor: "pointer",
+
+                    backgroundColor:
+                      cardSize === "compact"
+                        ? "#ddd"
+                        : "white"
+                  }}
+                >
+
+                  Compact
+
+                </button>
+
+                <button
+                  onClick={() =>
+                    setCardSize("medium")
+                  }
+
+                  style={{
+                    padding: "8px 12px",
+
+                    borderRadius: "8px",
+
+                    border: "1px solid #ccc",
+
+                    cursor: "pointer",
+
+                    backgroundColor:
+                      cardSize === "medium"
+                        ? "#ddd"
+                        : "white"
+                  }}
+                >
+
+                  Medium
+
+                </button>
+
+                <button
+                  onClick={() =>
+                    setCardSize("large")
+                  }
+
+                  style={{
+                    padding: "8px 12px",
+
+                    borderRadius: "8px",
+
+                    border: "1px solid #ccc",
+
+                    cursor: "pointer",
+
+                    backgroundColor:
+                      cardSize === "large"
+                        ? "#ddd"
+                        : "white"
+                  }}
+                >
+
+                  Large
+
+                </button>
+
+              </div>
 
             </div>
 
@@ -613,6 +705,8 @@ function CollectionDetail() {
               }
 
               viewMode={viewMode}
+
+              cardSize={cardSize}
 
               onCardRemoved={
                 fetchCards
