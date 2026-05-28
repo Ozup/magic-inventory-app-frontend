@@ -49,7 +49,9 @@ function App() {
       <h1>Magic Inventory App</h1>
 
       <CreateCollectionForm
-        onCollectionCreated={fetchCollections}
+        onCollectionCreated={
+          fetchCollections
+        }
       />
 
       <div
@@ -71,6 +73,10 @@ function App() {
               name={collection.name}
 
               type={collection.type}
+
+              onCollectionDeleted={
+                fetchCollections
+              }
             />
 
           ))
