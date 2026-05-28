@@ -279,29 +279,36 @@ function CardItem({
 
         </div>
 
-        <button
-          onClick={removeCard}
+        {
+          collectionType !== "ALBUM"
+          && (
 
-          style={{
-            marginTop: "12px",
+            <button
+              onClick={removeCard}
 
-            padding: "8px",
+              style={{
+                marginTop: "12px",
 
-            width: "100%",
+                padding: "8px",
 
-            cursor: "pointer",
+                width: "100%",
 
-            borderRadius: "8px",
+                cursor: "pointer",
 
-            border: "1px solid #ccc",
+                borderRadius: "8px",
 
-            transition: "0.2s"
-          }}
-        >
+                border: "1px solid #ccc",
 
-          Remove
+                transition: "0.2s"
+              }}
+            >
 
-        </button>
+              Remove
+
+            </button>
+
+          )
+        }
 
       </div>
 
