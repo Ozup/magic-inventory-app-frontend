@@ -11,6 +11,8 @@ import CardItem from "../components/CardItem"
 
 import AddCardForm from "../components/AddCardForm"
 
+import AlbumStats from "../components/AlbumStats"
+
 type Card = {
   id: number
 
@@ -355,81 +357,15 @@ function CollectionDetail() {
                 alignItems: "center"
               }}
             >
+              <AlbumStats
+                ownedCards={ownedCards}
+                totalCards={totalCards}
+                duplicates={duplicates}
+                completionPercentage={
+                  completionPercentage
+                }
+              />
 
-              <div>
-
-                <strong>
-                  Collected:
-                </strong>
-
-                {" "}
-
-                {ownedCards}
-
-                {" / "}
-
-                {totalCards}
-
-              </div>
-
-              <div
-                style={{
-                  minWidth: "220px"
-                }}
-              >
-
-                <strong>
-                  Completion:
-                </strong>
-
-                {" "}
-
-                {completionPercentage}%
-
-                <div
-                  style={{
-                    marginTop: "8px",
-
-                    width: "100%",
-
-                    height: "12px",
-
-                    backgroundColor: "#ddd",
-
-                    borderRadius: "999px",
-
-                    overflow: "hidden"
-                  }}
-                >
-
-                  <div
-                    style={{
-                      width:
-                        `${completionPercentage}%`,
-
-                      height: "100%",
-
-                      backgroundColor: "#4caf50",
-
-                      transition: "0.3s ease"
-                    }}
-                  />
-
-                </div>
-
-              </div>
-
-              <div>
-
-                <strong>
-                  Duplicates:
-                </strong>
-
-                {" "}
-
-                {duplicates}
-
-              </div>
 
               {
                 viewMode === "view"
