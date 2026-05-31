@@ -17,6 +17,8 @@ import CollectionFilters from "../components/CollectionFilters"
 
 import AlbumToolbar from "../components/AlbumToolbar"
 
+import CollectionCardsGrid from "../components/CollectionCardsGrid"
+
 type Card = {
   id: number
 
@@ -416,82 +418,29 @@ function CollectionDetail() {
       />
 
 
-      <div
-        style={{
-          display: "flex",
+      <CollectionCardsGrid
+        cards={cards}
 
-          flexWrap: "wrap",
-
-          gap:
-            viewMode === "view"
-              ? "10px"
-              : "16px"
-        }}
-      >
-
-        {
-          cards.map((item) => (
-
-            <CardItem
-              key={item.id}
-
-              name={item.card.name}
-
-              imageUrl={
-                item.card.image_url
-              }
-
-              typeLine={
-                item.card.type_line
-              }
-
-              manaCost={
-                item.card.mana_cost
-              }
-
-              rarity={
-                item.card.rarity
-              }
-
-              cmc={
-                item.card.cmc
-              }
-
-              quantity={
-                editedQuantities[
-                  item.card.id
-                ] ?? item.quantity
-              }
-
-              setName={
-                item.card.set_name
-              }
-
-              collectionId={id!}
-
-              cardId={item.card.id}
-
-              collectionType={
-                collectionType
-              }
-
-              viewMode={viewMode}
-
-              cardSize={cardSize}
-
-              onQuantityChange={
-                updateLocalQuantity
-              }
-
-              onCardRemoved={
-                fetchCards
-              }
-            />
-
-          ))
+        editedQuantities={
+          editedQuantities
         }
 
-      </div>
+        collectionId={id!}
+
+        collectionType={
+          collectionType
+        }
+
+        viewMode={viewMode}
+
+        cardSize={cardSize}
+
+        updateLocalQuantity={
+          updateLocalQuantity
+        }
+
+        fetchCards={fetchCards}
+      />
 
     </div>
 
