@@ -13,6 +13,8 @@ import AddCardForm from "../components/AddCardForm"
 
 import AlbumStats from "../components/AlbumStats"
 
+import CollectionFilters from "../components/CollectionFilters"
+
 type Card = {
   id: number
 
