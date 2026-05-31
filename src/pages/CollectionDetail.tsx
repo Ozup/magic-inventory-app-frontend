@@ -19,6 +19,8 @@ import AlbumToolbar from "../components/AlbumToolbar"
 
 import CollectionCardsGrid from "../components/CollectionCardsGrid"
 
+import BinderView from "../components/BinderView"
+
 type Card = {
   id: number
 
@@ -63,6 +65,12 @@ function CollectionDetail() {
   setViewMode] =
     useState<"view" | "edit">(
       "view"
+    )
+
+  const [displayMode,
+  setDisplayMode] =
+    useState<"grid" | "binder">(
+      "grid"
     )
 
   const [cardSize,
@@ -375,6 +383,9 @@ function CollectionDetail() {
               viewMode={viewMode}
               cardSize={cardSize}
 
+              displayMode={displayMode}
+              setDisplayMode={setDisplayMode}
+
               setViewMode={setViewMode}
               setCardSize={setCardSize}
 
@@ -418,29 +429,41 @@ function CollectionDetail() {
       />
 
 
-      <CollectionCardsGrid
-        cards={cards}
+      {
+      displayMode === "grid"
+        ? (
 
-        editedQuantities={
-          editedQuantities
-        }
+            <CollectionCardsGrid
+              cards={cards}
 
-        collectionId={id!}
+              editedQuantities={
+                editedQuantities
+              }
 
-        collectionType={
-          collectionType
-        }
+              collectionId={id!}
 
-        viewMode={viewMode}
+              collectionType={
+                collectionType
+              }
 
-        cardSize={cardSize}
+              viewMode={viewMode}
 
-        updateLocalQuantity={
-          updateLocalQuantity
-        }
+              cardSize={cardSize}
 
-        fetchCards={fetchCards}
-      />
+              updateLocalQuantity={
+                updateLocalQuantity
+              }
+
+              fetchCards={fetchCards}
+            />
+
+          )
+        : (
+
+            <BinderView />
+
+          )
+    }
 
     </div>
 

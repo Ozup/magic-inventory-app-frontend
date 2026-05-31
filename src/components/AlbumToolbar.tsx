@@ -17,6 +17,16 @@ type AlbumToolbarProps = {
       | "large"
   ) => void
 
+  displayMode:
+    | "grid"
+    | "binder"
+
+  setDisplayMode: (
+    mode:
+      | "grid"
+      | "binder"
+  ) => void
+
   saveChanges: () => void
 
   cancelChanges: () => void
@@ -25,6 +35,9 @@ type AlbumToolbarProps = {
 function AlbumToolbar({
   viewMode,
   cardSize,
+
+  displayMode,
+  setDisplayMode,
 
   setViewMode,
   setCardSize,
@@ -120,6 +133,65 @@ function AlbumToolbar({
 
         )
       }
+
+      <div
+        style={{
+          display: "flex",
+          gap: "10px"
+        }}
+      >
+
+        <button
+          onClick={() =>
+            setDisplayMode("grid")
+          }
+
+          style={{
+            padding: "8px 12px",
+
+            borderRadius: "8px",
+
+            border: "1px solid #ccc",
+
+            cursor: "pointer",
+
+            backgroundColor:
+              displayMode === "grid"
+                ? "#ddd"
+                : "white"
+          }}
+        >
+
+          Grid
+
+        </button>
+
+        <button
+          onClick={() =>
+            setDisplayMode("binder")
+          }
+
+          style={{
+            padding: "8px 12px",
+
+            borderRadius: "8px",
+
+            border: "1px solid #ccc",
+
+            cursor: "pointer",
+
+            backgroundColor:
+              displayMode === "binder"
+                ? "#ddd"
+                : "white"
+          }}
+        >
+
+          Binder
+
+        </button>
+
+      </div>
 
       <div
         style={{
