@@ -73,6 +73,14 @@ function CollectionDetail() {
       "grid"
     )
 
+  const [binderLayout,
+  setBinderLayout] =
+    useState<
+      "2x2"
+      | "3x3"
+      | "4x4"
+    >("3x3")
+
   const [cardSize,
   setCardSize] =
     useState<
@@ -386,6 +394,9 @@ function CollectionDetail() {
               displayMode={displayMode}
               setDisplayMode={setDisplayMode}
 
+              binderLayout={binderLayout}
+              setBinderLayout={setBinderLayout}
+
               setViewMode={setViewMode}
               setCardSize={setCardSize}
 
@@ -460,7 +471,13 @@ function CollectionDetail() {
           )
         : (
 
-            <BinderView />
+            <BinderView
+              cards={cards}
+
+              binderLayout={
+                binderLayout
+              }
+            />
 
           )
     }

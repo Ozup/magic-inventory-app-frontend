@@ -27,6 +27,18 @@ type AlbumToolbarProps = {
       | "binder"
   ) => void
 
+  binderLayout:
+    | "2x2"
+    | "3x3"
+    | "4x4"
+
+  setBinderLayout: (
+    layout:
+      | "2x2"
+      | "3x3"
+      | "4x4"
+  ) => void
+
   saveChanges: () => void
 
   cancelChanges: () => void
@@ -38,6 +50,9 @@ function AlbumToolbar({
 
   displayMode,
   setDisplayMode,
+
+  binderLayout,
+  setBinderLayout,
 
   setViewMode,
   setCardSize,
@@ -192,6 +207,46 @@ function AlbumToolbar({
         </button>
 
       </div>
+
+      {
+        displayMode === "binder"
+        && (
+
+          <div
+            style={{
+              display: "flex",
+              gap: "10px"
+            }}
+          >
+
+            <button
+              onClick={() =>
+                setBinderLayout("2x2")
+              }
+            >
+              2x2
+            </button>
+
+            <button
+              onClick={() =>
+                setBinderLayout("3x3")
+              }
+            >
+              3x3
+            </button>
+
+            <button
+              onClick={() =>
+                setBinderLayout("4x4")
+              }
+            >
+              4x4
+            </button>
+
+          </div>
+
+        )
+      }      
 
       <div
         style={{
