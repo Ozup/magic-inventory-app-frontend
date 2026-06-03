@@ -19,6 +19,8 @@ type CardItemProps = {
 
   cardId: number
 
+  usdPrice?: number
+
   collectionType: string
 
   viewMode: "view" | "edit"
@@ -54,6 +56,8 @@ function CardItem({
   collectionId,
 
   cardId,
+
+  usdPrice,
 
   collectionType,
 
@@ -473,6 +477,18 @@ function CardItem({
                 </strong>
                 {" "}
                 {cmc}
+              </p>
+
+              <p>
+                <strong>
+                  Price:
+                </strong>
+                {" "}
+                {
+                  usdPrice
+                    ? `$${usdPrice.toFixed(2)}`
+                    : "N/A"
+                }
               </p>
 
               <button

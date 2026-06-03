@@ -66,6 +66,10 @@ return (
             item.card.image_url
           }
 
+          usdPrice={
+            item.card.usd_price
+          }
+
           typeLine={
             item.card.type_line
           }
