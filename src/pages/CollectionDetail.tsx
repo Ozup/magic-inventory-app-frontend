@@ -37,6 +37,7 @@ type Card = {
     cmc: number
 
     set_name: string
+    usd_price?: number
   }
 }
 
@@ -106,6 +107,17 @@ function CollectionDetail() {
   const [completionPercentage,
   setCompletionPercentage] =
     useState(0)
+
+  const collectionValue =
+    cards.reduce(
+      (total, item) =>
+        total +
+        (
+          item.quantity *
+          (item.card.usd_price ?? 0)
+        ),
+      0
+    )
 
   const [loading, setLoading] =
     useState(true)
@@ -387,6 +399,40 @@ function CollectionDetail() {
                   completionPercentage
                 }
               />
+              <div
+                style={{
+                  padding: "12px 18px",
+
+                  backgroundColor: "white",
+
+                  borderRadius: "10px",
+
+                  border: "1px solid #ddd",
+
+                  fontWeight: "bold"
+                }}
+              >
+
+                Collection Value
+
+                <div
+                  style={{
+                    fontSize: "20px",
+
+                    marginTop: "4px"
+                  }}
+                >
+
+                  $
+                  {
+                    collectionValue.toFixed(2)
+                  }
+
+                </div>
+
+              </div>
+
+
               <AlbumToolbar
               viewMode={viewMode}
               cardSize={cardSize}
