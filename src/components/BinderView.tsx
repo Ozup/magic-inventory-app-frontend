@@ -3,6 +3,9 @@ import { useState } from "react"
 type BinderViewProps = {
   cards: any[]
 
+  editedQuantities:
+    Record<number, number>
+
   binderLayout:
     | "2x2"
     | "3x3"
@@ -11,6 +14,9 @@ type BinderViewProps = {
 
 function BinderView({
   cards,
+
+  editedQuantities,
+
   binderLayout
 }: BinderViewProps) {
 
@@ -122,57 +128,76 @@ function BinderView({
       >
 
         {
-          visibleCards.map((item) => (
+          visibleCards.map((item) => {
 
-            <div
-              key={item.id}
+            const quantity =
+              editedQuantities[
+                item.card.id
+              ] ?? item.quantity
 
-              style={{
-                border:
-                  "1px solid #ddd",
-
-                borderRadius: "12px",
-
-                padding: "10px",
-
-                textAlign: "center"
-              }}
-            >
-
-              <img
-                src={
-                  item.card.image_url
-                }
-
-                alt={
-                  item.card.name
-                }
-
-                style={{
-                  width: "100%",
-
-                  borderRadius:
-                    "8px"
-                }}
-              />
+            return (
 
               <div
-                style={{
-                  marginTop: "8px",
+                key={item.id}
 
-                  fontSize: "12px"
+                style={{
+                  border:
+                    "1px solid #ddd",
+
+                  borderRadius: "12px",
+
+                  padding: "10px",
+
+                  textAlign: "center"
                 }}
               >
 
-                {
-                  item.card.name
-                }
+                <img
+                  src={
+                    item.card.image_url
+                  }
+
+                  alt={
+                    item.card.name
+                  }
+
+                  style={{
+                    width: "100%",
+
+                    borderRadius:
+                      "8px",
+
+                    filter:
+                      quantity === 0
+                        ? "grayscale(100%)"
+                        : "none",
+
+                    opacity:
+                      quantity === 0
+                        ? 0.5
+                        : 1
+                  }}
+                />
+
+                <div
+                  style={{
+                    marginTop: "8px",
+
+                    fontSize: "12px"
+                  }}
+                >
+
+                  {
+                    item.card.name
+                  }
+
+                </div>
 
               </div>
 
-            </div>
+            )
 
-          ))
+          })
         }
 
       </div>

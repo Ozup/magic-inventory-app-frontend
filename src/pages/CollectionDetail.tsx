@@ -474,6 +474,10 @@ function CollectionDetail() {
             <BinderView
               cards={cards}
 
+              editedQuantities={
+                editedQuantities
+              }
+
               binderLayout={
                 binderLayout
               }
