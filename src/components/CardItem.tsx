@@ -478,6 +478,14 @@ function CardItem({
                 {" "}
                 {cmc}
               </p>
+              
+              <p>
+                <strong>
+                  Quantity:
+                </strong>
+                {" "}
+                {quantity}
+              </p>
 
               <p>
                 <strong>
