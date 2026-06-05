@@ -39,6 +39,7 @@ function CollectionCardsGrid({
   fetchCards
 }: CollectionCardsGridProps) {
 
+
 return (
 
   <div
@@ -90,6 +91,10 @@ return (
             editedQuantities[
               item.card.id
             ] ?? item.quantity
+          }
+
+          foilQuantity={
+            item.foil_quantity
           }
 
           setName={

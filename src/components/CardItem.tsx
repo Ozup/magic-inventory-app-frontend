@@ -13,6 +13,8 @@ type CardItemProps = {
 
   quantity: number
 
+  foilQuantity: number
+
   setName: string
 
   collectionId: string
@@ -50,6 +52,7 @@ function CardItem({
   cmc,
 
   quantity,
+  foilQuantity,
 
   setName,
 
@@ -485,6 +488,14 @@ function CardItem({
                 </strong>
                 {" "}
                 {quantity}
+              </p>
+
+              <p>
+                <strong>
+                  Foil Quantity:
+                </strong>
+                {" "}
+                {foilQuantity}
               </p>
 
               <p>
