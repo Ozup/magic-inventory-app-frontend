@@ -39,6 +39,11 @@ type CardItemProps = {
     quantity: number
   ) => void
 
+  updateLocalFoilQuantity: (
+    cardId: number,
+    quantity: number
+  ) => void
+
   onCardRemoved: () => void
 }
 
@@ -69,6 +74,8 @@ function CardItem({
   cardSize,
 
   onQuantityChange,
+
+  updateLocalFoilQuantity,
 
   onCardRemoved
 }: CardItemProps) {
@@ -178,12 +185,12 @@ function CardItem({
             cursor: "pointer",
 
             filter:
-              quantity === 0
+              quantity + foilQuantity === 0
                 ? "grayscale(100%)"
                 : "grayscale(0%)",
 
             opacity:
-              quantity === 0
+              quantity + + foilQuantity=== 0
                 ? 0.6
                 : 1,
 
@@ -216,105 +223,236 @@ function CardItem({
 
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "10px"
+                marginTop: "12px"
               }}
             >
 
-              <button
-                onClick={() => {
+              <div
+                style={{
+                  textAlign: "center",
 
-                  if (
+                  fontSize: "13px",
+
+                  fontWeight: "bold",
+
+                  marginBottom: "6px"
+                }}
+              >
+
+                Foil
+
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+
+                  alignItems: "center",
+
+                  justifyContent: "center",
+
+                  gap: "10px"
+                }}
+              >
+
+                <button
+
+                    onClick={() =>
+                      updateLocalFoilQuantity(
+                        cardId,
+                        Math.max(
+                          0,
+                          foilQuantity - 1
+                        )
+                      )
+                    }
+                  style={{
+                    padding: "5px 10px",
+
+                    borderRadius: "6px",
+
+                    border: "1px solid #ccc"
+                  }}
+                >
+
+                  -
+
+                </button>
+
+                <span
+                  style={{
+                    fontWeight: "bold",
+
+                    fontSize: "16px"
+                  }}
+                >
+
+                  {foilQuantity}
+
+                </span>
+
+                <button
+
+                    onClick={() =>
+                      updateLocalFoilQuantity(
+                        cardId,
+                        foilQuantity + 1
+                      )
+                    }
+                  style={{
+                    padding: "5px 10px",
+
+                    borderRadius: "6px",
+
+                    border: "1px solid #ccc"
+                  }}
+                >
+
+                  +
+
+                </button>
+
+              </div>
+
+            </div>
+
+          )
+        }
+
+
+        {
+          viewMode === "edit"
+          && (
+
+            <div
+              style={{
+                marginTop: "8px"
+              }}
+            >
+
+              <div
+                style={{
+                  textAlign: "center",
+
+                  fontSize: "13px",
+
+                  fontWeight: "bold",
+
+                  marginBottom: "6px"
+                }}
+              >
+
+                Non-Foil
+
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px"
+                }}
+              >
+
+                <button
+                  onClick={() => {
+
+                    if (
+                      collectionType !== "ALBUM"
+                      &&
+                      quantity <= 1
+                    ) {
+                      return
+                    }
+
+                    if (
+                      collectionType === "ALBUM"
+                      &&
+                      quantity < 0
+                    ) {
+                      return
+                    }
+
+                    onQuantityChange(
+                      cardId,
+                      quantity - 1
+                    )
+                  }}
+
+                  disabled={
                     collectionType !== "ALBUM"
                     &&
                     quantity <= 1
-                  ) {
-                    return
                   }
 
-                  if (
-                    collectionType === "ALBUM"
-                    &&
-                    quantity < 0
-                  ) {
-                    return
+                  style={{
+                    padding: "5px 10px",
+
+                    cursor:
+                      (
+                        collectionType !== "ALBUM"
+                        &&
+                        quantity <= 1
+                      )
+                        ? "not-allowed"
+                        : "pointer",
+
+                    opacity:
+                      (
+                        collectionType !== "ALBUM"
+                        &&
+                        quantity <= 1
+                      )
+                        ? 0.5
+                        : 1,
+
+                    borderRadius: "6px",
+
+                    border: "1px solid #ccc"
+                  }}
+                >
+
+                  -
+
+                </button>
+
+                <span
+                  style={{
+                    fontWeight: "bold",
+
+                    fontSize: "16px"
+                  }}
+                >
+
+                  {quantity}
+
+                </span>
+
+                <button
+                  onClick={() =>
+                    onQuantityChange(
+                      cardId,
+                      quantity + 1
+                    )
                   }
 
-                  onQuantityChange(
-                    cardId,
-                    quantity - 1
-                  )
-                }}
+                  style={{
+                    padding: "5px 10px",
 
-                disabled={
-                  collectionType !== "ALBUM"
-                  &&
-                  quantity <= 1
-                }
+                    cursor: "pointer",
 
-                style={{
-                  padding: "5px 10px",
+                    borderRadius: "6px",
 
-                  cursor:
-                    (
-                      collectionType !== "ALBUM"
-                      &&
-                      quantity <= 1
-                    )
-                      ? "not-allowed"
-                      : "pointer",
+                    border: "1px solid #ccc"
+                  }}
+                >
 
-                  opacity:
-                    (
-                      collectionType !== "ALBUM"
-                      &&
-                      quantity <= 1
-                    )
-                      ? 0.5
-                      : 1,
+                  +
 
-                  borderRadius: "6px",
-                  border: "1px solid #ccc"
-                }}
-              >
+                </button>
 
-                -
-
-              </button>
-
-              <span
-                style={{
-                  fontWeight: "bold",
-                  fontSize: "16px"
-                }}
-              >
-
-                {quantity}
-
-              </span>
-
-              <button
-                onClick={() =>
-                  onQuantityChange(
-                    cardId,
-                    quantity + 1
-                  )
-                }
-
-                style={{
-                  padding: "5px 10px",
-                  cursor: "pointer",
-
-                  borderRadius: "6px",
-                  border: "1px solid #ccc"
-                }}
-              >
-
-                +
-
-              </button>
+              </div>
 
             </div>
 
@@ -420,12 +558,12 @@ function CardItem({
                   borderRadius: "12px",
 
                   filter:
-                    quantity === 0
+                    quantity + foilQuantity === 0
                       ? "grayscale(100%)"
                       : "grayscale(0%)",
 
                   opacity:
-                    quantity === 0
+                    quantity + foilQuantity === 0
                       ? 0.6
                       : 1
                 }}

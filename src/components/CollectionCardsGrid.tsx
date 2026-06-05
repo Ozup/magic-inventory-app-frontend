@@ -6,6 +6,9 @@ type CollectionCardsGridProps = {
   editedQuantities:
     Record<number, number>
 
+  editedFoilQuantities:
+    Record<number, number>
+
   collectionId: string
 
   collectionType: string
@@ -18,6 +21,12 @@ type CollectionCardsGridProps = {
     | "large"
 
   updateLocalQuantity: (
+    cardId: number,
+    quantity: number
+  ) => void
+
+
+  updateLocalFoilQuantity: (
     cardId: number,
     quantity: number
   ) => void
@@ -36,6 +45,10 @@ function CollectionCardsGrid({
   cardSize,
 
   updateLocalQuantity,
+
+  editedFoilQuantities,
+
+  updateLocalFoilQuantity,
   fetchCards
 }: CollectionCardsGridProps) {
 
@@ -94,8 +107,10 @@ return (
           }
 
           foilQuantity={
-            item.foil_quantity
-          }
+          editedFoilQuantities[
+            item.card.id
+          ] ?? item.foil_quantity
+        }
 
           setName={
             item.card.set_name
@@ -115,6 +130,10 @@ return (
 
           onQuantityChange={
             updateLocalQuantity
+          }
+
+          updateLocalFoilQuantity={
+            updateLocalFoilQuantity
           }
 
           onCardRemoved={

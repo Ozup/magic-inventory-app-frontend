@@ -26,6 +26,8 @@ type Card = {
 
   quantity: number
 
+  foil_quantity: number
+
   card: {
     id: number
     name: string
@@ -50,6 +52,11 @@ function CollectionDetail() {
 
   const [editedQuantities,
   setEditedQuantities] =
+    useState<
+      Record<number, number>
+    >({})
+  const [editedFoilQuantities,
+  setEditedFoilQuantities] =
     useState<
       Record<number, number>
     >({})
@@ -110,12 +117,26 @@ function CollectionDetail() {
 
   const collectionValue =
     cards.reduce(
-      (total, item) =>
-        total +
-        (
-          item.quantity *
-          (item.card.usd_price ?? 0)
-        ),
+      (total, item) => {
+
+        const quantity =
+          editedQuantities[item.card.id]
+          ?? item.quantity
+
+        const foilQuantity =
+          editedFoilQuantities[item.card.id]
+          ?? item.foil_quantity
+
+        return (
+          total +
+          (
+            (quantity + foilQuantity)
+            *
+            (item.card.usd_price ?? 0)
+          )
+        )
+
+      },
       0
     )
 
@@ -148,6 +169,22 @@ function CollectionDetail() {
       })
     )
   }
+
+  const updateLocalFoilQuantity = (
+    cardId: number,
+    quantity: number
+  ) => {
+
+    setEditedFoilQuantities(
+      (prev) => ({
+
+        ...prev,
+
+        [cardId]: quantity
+      })
+    )
+  }
+
 
   const saveChanges = async () => {
 
@@ -295,8 +332,37 @@ function CollectionDetail() {
             )
 
             return updated
+          }     
+        )
+
+        setEditedFoilQuantities(
+          (prev) => {
+
+            const updated = {
+              ...prev
+            }
+
+            response.data.forEach(
+              (item: Card) => {
+
+                if (
+                  updated[
+                    item.card.id
+                  ] === undefined
+                ) {
+
+                  updated[
+                    item.card.id
+                  ] = item.foil_quantity
+                }
+              }
+            )
+
+            return updated
           }
         )
+
+        
 
         setLoading(false)
 
@@ -497,6 +563,10 @@ function CollectionDetail() {
                 editedQuantities
               }
 
+              editedFoilQuantities={
+                editedFoilQuantities
+              }
+
               collectionId={id!}
 
               collectionType={
@@ -509,6 +579,10 @@ function CollectionDetail() {
 
               updateLocalQuantity={
                 updateLocalQuantity
+              }
+
+              updateLocalFoilQuantity={
+                updateLocalFoilQuantity
               }
 
               fetchCards={fetchCards}
