@@ -202,7 +202,12 @@ function CollectionDetail() {
               null,
               {
                 params: {
-                  quantity
+                  quantity,
+
+                  foil_quantity:
+                    editedFoilQuantities[
+                      Number(cardId)
+                    ] ?? 0
                 }
               }
             )
