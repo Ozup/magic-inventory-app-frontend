@@ -40,6 +40,7 @@ type Card = {
 
     set_name: string
     usd_price?: number
+    usd_foil_price?: number
   }
 }
 
@@ -129,11 +130,25 @@ function CollectionDetail() {
 
         return (
           total +
+
           (
-            (quantity + foilQuantity)
-            *
+            quantity *
             (item.card.usd_price ?? 0)
           )
+
+          +
+
+          (
+            foilQuantity *
+            (
+              item.card.usd_foil_price
+              ??
+              item.card.usd_price
+              ??
+              0
+            )
+          )
+
         )
 
       },
