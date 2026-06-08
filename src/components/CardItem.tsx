@@ -27,6 +27,8 @@ type CardItemProps = {
 
   collectionType: string
 
+  isCommander: boolean
+
   viewMode: "view" | "edit"
 
   cardSize:
@@ -72,6 +74,8 @@ function CardItem({
   usdFoilPrice,
 
   collectionType,
+
+  isCommander,
 
   viewMode,
 
@@ -201,6 +205,14 @@ function CardItem({
             transition: "0.2s ease"
           }}
         />
+
+        {
+          isCommander && (
+            <div>
+              ⭐ Commander
+            </div>
+          )
+        }
 
         {
           viewMode === "edit"

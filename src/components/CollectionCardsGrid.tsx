@@ -111,10 +111,14 @@ return (
           }
 
           foilQuantity={
-          editedFoilQuantities[
-            item.card.id
-          ] ?? item.foil_quantity
-        }
+            editedFoilQuantities[
+              item.card.id
+            ] ?? item.foil_quantity
+          }
+
+          isCommander={
+            item.is_commander
+          }
 
           setName={
             item.card.set_name

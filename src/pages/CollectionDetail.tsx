@@ -28,6 +28,8 @@ type Card = {
 
   foil_quantity: number
 
+  is_commander: boolean
+  
   card: {
     id: number
     name: string
