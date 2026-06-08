@@ -84,6 +84,10 @@ return (
             item.card.usd_price
           }
 
+          usdFoilPrice={
+            item.card.usd_foil_price
+          }
+
           typeLine={
             item.card.type_line
           }
